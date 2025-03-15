@@ -23,14 +23,14 @@ const Pokemon = new Schema({
         type: String,
         required: true,
         validate: {
-            valodator: (valor) => {
+            validator: (valor) => {
                 return valor && valor.startsWith('http');
             },
             message: () => "a imagem deve ser uma url absoluta"
         }
     },
     ataques: {
-        type: String,
+        type: [String],
         required: true,
     },
     estatisticas: {
