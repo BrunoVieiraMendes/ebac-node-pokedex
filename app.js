@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require ('path');
-const expressLayouts = ('express-ejs-layouts');
+const expressLayouts = require('express-ejs-layouts');
+
 
 const { connect } = require('./models');
 
