@@ -12,7 +12,7 @@ const buscaInfoPokemon = (pokeId) => {
             const nome = data.name;
             const altura = data.height;
             const peso = data.weight;
-            const imagem = data.sprites.front_default;
+            const imagem = data.sprites.other['official-artwork'].front_default;
             const ataques = data.abilities.map(a => a.ability.name).join(', ');
     
             const estatisticas = {};

@@ -12,7 +12,6 @@ router.get('/', (_req, res) => {
             pokemon,
         });
     })
-    res.send({});
 });
 
 
