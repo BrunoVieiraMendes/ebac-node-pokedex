@@ -19,8 +19,11 @@ const buscaInfoPokemon = (pokeId) => {
     
             data.stats.forEach((estatistica) => {
                 estatisticas[estatistica.stat.name] = estatistica.base_stat;
-    
+
             });
+
+            const jogos = data.game_indices.map(a => a.version.name);
+
             resolve({
                 id: id,
                 nome: nome,
@@ -29,6 +32,7 @@ const buscaInfoPokemon = (pokeId) => {
                 imagem: imagem,
                 ataques: ataques,
                 estatisticas: estatisticas,
+                jogos: jogos,
             })
 
         }).catch((e) => reject(e));
