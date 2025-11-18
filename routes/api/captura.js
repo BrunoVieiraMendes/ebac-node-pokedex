@@ -6,24 +6,34 @@ const { Pokemon } = require('../../models');
 
 const router = express.Router();
 
-router.post('/captura/:id', (req, res) => {
-    buscaInfoPokemon(req.params.id).then((pokemon) => {
+router.post('/captura/:id', async (req, res) => {
+    try {
+        const pokemon = await buscaInfoPokemon(req.params.id);
+
         const pokemonFoiCapturado = Math.random() <= 0.4;
         console.log(pokemonFoiCapturado);
 
         if (pokemonFoiCapturado) {
-            Pokemon.create(pokemon).then((pokemonCapturado) => {
-             res.json({
-                capturado: true,
-                id: pokemonCapturado._id
-             });   
-            }).catch(e => res.status(500).json({ erro: e }));
-        }
-        else {
-            res.json({ capturado: false});
+
+            try {
+                const pokemonCapturado = await Pokemon.create(pokemon);
+
+                return res.json({
+                    capturado: true,
+                    id: pokemonCapturado._id
+                });
+
+            } catch (e) {
+                return res.status(500).json({ erro: e });
+            }
+
+        } else {
+            return res.json({ capturado: false });
         }
 
-    }).catch(_ => res.status(404).json({ erro: "Pokeomon não encontrado"}));
+    } catch (error) {
+        return res.status(404).json({ erro: "Pokémon não encontrado" });
+    }
 });
 
 module.exports = router;
