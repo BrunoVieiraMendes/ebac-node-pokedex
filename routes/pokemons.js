@@ -14,7 +14,7 @@ router.get('/', async (_req, res) => {
        });
        
         res.render('paginas/pokemons/index', {
-            pokemons: pokemon, 
+            pokemons: pokemons, 
         });
     });
 
