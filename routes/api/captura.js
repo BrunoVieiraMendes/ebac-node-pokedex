@@ -6,7 +6,7 @@ const { Pokemon } = require('../../models');
 
 const router = express.Router();
 
-router.post('/captura/:id', async (req, res) => {
+router.post('/:id', async (req, res) => {
     try {
         const pokemon = await buscaInfoPokemon(req.params.id);
 
