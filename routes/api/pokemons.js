@@ -46,6 +46,64 @@ router.get('/', async (req, res) => {
     }
 });
 
+
+//atividade modulo 8 pesquisa por peso minimo
+
+//peso minimo
+router.get('/por-peso', async (req, res) => {
+    try {
+        const filtros = req.query;
+        const options = {};
+
+        if (filtros.pesoMinimo) {
+            options.peso = {
+                $gte: Number(filtros.pesoMinimo)
+            };
+        }
+
+        const pokemons = await Pokemon.find(options);
+        res.status(200).json({
+            sucesso: true,
+            pokemons: pokemons,
+        })
+    } catch (e) {
+        res.status(500).json({
+            sucesso: false,
+            erro: e,
+        })
+    }
+
+});
+
+
+//altura minima
+
+router.get('/por-altura', async (req, res) => {
+    try {
+        const filtros = req.query;
+        const options = {};
+
+        if (filtros.alturaMinima) {
+            options.altura = {
+                $gte: Number(filtros.alturaMinima)
+            };
+        }
+
+        const pokemons = await Pokemon.find(options);
+        res.status(200).json({
+            sucesso: true,
+            pokemons: pokemons,
+        })
+    } catch (e) {
+        res.status(500).json({
+            sucesso: false,
+            erro: e,
+        })
+    }
+
+});
+
+
 //r crud exibicao pokemons
 
 router.get('/:id', async(req, res) => {
@@ -62,6 +120,8 @@ router.get('/:id', async(req, res) => {
         })
     }
 });
+
+
 
 // U do Crud (Update)
 
@@ -89,31 +149,33 @@ router.patch('/:id', async(req, res) => {
     }
 });
 
-//atividade modulo 8 pesquisa por peso minimo
 
-router.get('/', async (req, res) => {
+//d crud delete pokemons
+
+router.delete('/:id', async (req, res) => {
     try {
-        const filtros = req.query;
-        const options = {};
+        const pokemon = await Pokemon.findByIdAndDelete(req.params.id);
 
-        if (filtros.pesoMinimo) {
-            options.peso = {
-                $gte: Number(filtros.pesoMinimo)
-            };
+        if (!pokemon) {
+            return res.status(404).json({
+                sucesso: false,
+                erro: 'Pokemon não encontrado',
+            });
         }
 
-        const pokemons = await Pokemon.find(options);
-        res.status(200).json({
+        res.json({
             sucesso: true,
-            pokemons: pokemons,
-        })
-    } catch (e) {
-        res.status(500).json({
-            sucesso: false,
-            erro: e,
-        })
-    }
+            mensagem: 'Pokemon deletado com sucesso',
+            pokemon: pokemon,
+        });
 
+    } catch (e) {
+        res.status(400).json({
+            sucesso: false,
+            erro: 'ID inválido',
+        });
+    }
 });
+
 
 module.exports = router;
