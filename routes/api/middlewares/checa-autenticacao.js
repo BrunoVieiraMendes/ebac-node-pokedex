@@ -4,7 +4,7 @@ const { Usuario } = require ('../../../models');
 
 const checaAutenticacao = async (req, res, next) => {
    try{
-        const jwtUsuario = req.headers.authorization.replace('Bearer', '');
+        const jwtUsuario = req.headers.authorization.replace('Bearer ', '');
         const email = (await jwt.verify(jwtUsuario, process.env.SEGREDO_JWT)).email;
 
         const usuario = await Usuario.findOne({ email: email });
@@ -17,6 +17,7 @@ const checaAutenticacao = async (req, res, next) => {
 
         next();
    } catch (e) {
+        console.log("ERRO:", e);
         res.status(401).json({
             sucesso: false,
             erro: 'Faca login para acessar essa rota ',
