@@ -31,6 +31,19 @@ router.get('/oauth2/redirect/google', checaNaoAutenticado,
         failureMessage: true
     }), (_req, res) => {
         res.redirect('/');
-    })
+    });
+
+router.get('/github',
+    passport.authenticate('github', { scope: ['user:email'] })
+);
+
+router.get('/oauth2/redirect/github',
+    passport.authenticate('github', {
+        failureRedirect: '/auth'
+    }),
+    (req, res) => {
+        res.redirect('/');
+    }
+);   
 
 module.exports = router
