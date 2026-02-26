@@ -10,11 +10,19 @@ const expressLayouts = require('express-ejs-layouts');
 
 const { connect } = require('./models');
 
+require('./routes/auth/');
 const pokemonsRouter = require('./routes/pokemons');
 const batalhaRouter = require('./routes/batalha');
+const autenticacaoRouter = require('./routes/auth');
 const apiRouter = require('./routes/api');
+const homeRouter = require('./routes/home');
 
 const app = express();
+
+//configurando leitura de corpo
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 
 //configurando autenticacao
 app.use(session({
@@ -37,6 +45,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 //declarando rotas
 app.use('/pokemons', pokemonsRouter);
 app.use('/batalha', batalhaRouter);
+app.use('/auth', autenticacaoRouter);
+app.use('/', homeRouter);
 
 //declarando rotas api
 app.use('/api', apiRouter);
