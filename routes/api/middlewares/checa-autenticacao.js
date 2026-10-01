@@ -3,6 +3,12 @@ const jwt = require ('jsonwebtoken');
 const { Usuario } = require ('../../../models');
 
 const checaAutenticacao = async (req, res, next) => {
+   // usuario logado pelo navegador (sessao do passport)
+   if (req.isAuthenticated && req.isAuthenticated()) {
+        req.usuario = req.user;
+        return next();
+   }
+
    try{
         const jwtUsuario = req.headers.authorization.replace('Bearer ', '');
         const email = (await jwt.verify(jwtUsuario, process.env.SEGREDO_JWT)).email;
